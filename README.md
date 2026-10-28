@@ -25,7 +25,7 @@ Install Java JDK 17+, Apache Maven, and MySQL Server. MySQL Workbench is optiona
 
 **1. Clone the repository**
 ```bash
-git clone <REPOSITORY_URL>
+git clone <https://github.com/swagatambehera/MediSync.git>
 cd MediSync
 ```
 
