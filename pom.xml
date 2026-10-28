@@ -58,7 +58,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.3.0</version>
                 <configuration>
-                    <mainClass>MainApp</mainClass>
+                    <mainClass>gui.MediSyncGUI</mainClass>
                 </configuration>
             </plugin>
         </plugins>

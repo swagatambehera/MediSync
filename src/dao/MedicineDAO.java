@@ -109,6 +109,63 @@ public class MedicineDAO {
         }
     }
 
+    
+public boolean updateMedicine(Medicine medicine) throws SQLException {
+    if (medicine == null || medicine.getMedicineId() <= 0) {
+        throw new IllegalArgumentException("Invalid medicine.");
+    }
+
+    if (medicine.getName() == null || medicine.getName().isBlank()) {
+        throw new IllegalArgumentException("Medicine name is required.");
+    }
+
+    if (medicine.getType() == null || medicine.getType().isBlank()) {
+        throw new IllegalArgumentException("Medicine type is required.");
+    }
+
+    if (medicine.getDosage() == null || medicine.getDosage().isBlank()) {
+        throw new IllegalArgumentException("Dosage is required.");
+    }
+
+    if (medicine.getQuantity() < 0 ||
+            medicine.getLowStockThreshold() < 0) {
+        throw new IllegalArgumentException(
+                "Quantity and threshold cannot be negative.");
+    }
+
+    if (medicine.getExpiryDate() == null) {
+        throw new IllegalArgumentException("Expiry date is required.");
+    }
+
+    String query = """
+            UPDATE medicines
+            SET name = ?,
+                type = ?,
+                dosage = ?,
+                quantity = ?,
+                low_stock_threshold = ?,
+                expiry_date = ?,
+                notes = ?
+            WHERE medicine_id = ?
+            """;
+
+    try (Connection con = DBConnection.getConnection();
+         PreparedStatement ps = con.prepareStatement(query)) {
+
+        ps.setString(1, medicine.getName().trim());
+        ps.setString(2, medicine.getType().trim());
+        ps.setString(3, medicine.getDosage().trim());
+        ps.setInt(4, medicine.getQuantity());
+        ps.setInt(5, medicine.getLowStockThreshold());
+        ps.setDate(6, Date.valueOf(medicine.getExpiryDate()));
+        ps.setString(7, medicine.getNotes());
+        ps.setInt(8, medicine.getMedicineId());
+
+        return ps.executeUpdate() > 0;
+    }
+}
+
+
     public List<Medicine> getLowStockMedicines() throws SQLException {
         List<Medicine> medicines = new ArrayList<>();
         String query = "SELECT * FROM medicines WHERE quantity <= low_stock_threshold";
