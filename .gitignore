@@ -28,3 +28,22 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+### Maven ###
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+### Java ###
+*.class
+
+### Environment variables and secrets ###
+.env
+.env.*
+!.env.example
+
+### Logs ###
+*.log
